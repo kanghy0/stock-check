@@ -36,7 +36,7 @@ router.get('/nelson', (req, res) => {
         var isSoldout = script[1].search("'" + size + "','soldout'");
         if(isSoldout == -1) {
           isSoldout = 1;
-        } else if(1) {
+        } else if(isSoldout == 1) {
           isSoldout = 0;
         } else {
           isSoldout = -1;
