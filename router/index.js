@@ -9,17 +9,15 @@ router.get('/', (req, res) => {
   res.send('테스트입니다.')
 })
 
-router.get('/data', (req, res) => {
+router.post('/data', (req, res) => {
   console.log('/posts/data call')
   // const scm = req.scm;
   // if(scm == 'nelson') {
-    const url = req.url;
-    const goodsDir = req.goodsDir;
     const goodsNo = req.goodsNo;
     const optionNo = req.optionNo;
     const size = req.size;
     try {
-      axios.get(url + goodsDir, {
+      axios.get('http://www.nelsonsports.co.kr/shop/goods/goods_view.php', {
         params: {
           goodsno: goodsNo,
         }
