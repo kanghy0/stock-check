@@ -11,9 +11,7 @@ router.get('/', (req, res) => {
 
 router.post('/data', (req, res) => {
   console.log('/posts/data call')
-  res.json({
-    test: 123,
-  })
+  res.json(req)
   // const scm = req.scm;
   // if(scm == 'nelson') {
     // const goodsNo = req.goodsNo;
