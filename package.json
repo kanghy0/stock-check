@@ -2,14 +2,16 @@
   "name": "stockcheck",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "GRAY SHOP",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
+    "cheerio": "^1.0.0-rc.10",
     "express": "^4.17.3"
   }
 }
