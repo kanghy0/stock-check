@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 
 router.post('/data', (req, res) => {
   console.log('/posts/data call')
-  res.json(req)
+  res.send(req)
   // const scm = req.scm;
   // if(scm == 'nelson') {
     // const goodsNo = req.goodsNo;
