@@ -15,7 +15,7 @@ app.use(cors(corsOptions));
 app.get('/', (req, res) => {
   res.send('안녕하세요!')
 })
-app.use('/posts', index);
+app.use('/get', index);
 
 app.listen(80, (req, res) => {
   console.log("서버 실행");

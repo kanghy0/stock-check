@@ -5,12 +5,12 @@ const cheerio = require('cheerio')
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  console.log('/posts call')
+  console.log('/get call')
   res.send('테스트입니다.')
 })
 
-router.get('/data', (req, res) => {
-  console.log('/posts/data call')
+router.get('/nelson', (req, res) => {
+  console.log('/get/data call')
   res.json({
     test: 123,
   })
