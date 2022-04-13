@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
   res.send('테스트입니다.')
 })
 
-router.post('/data', (req, res) => {
+router.get('/data', (req, res) => {
   console.log('/posts/data call')
   const scm = req.scm;
   if(scm == 'nelson') {
