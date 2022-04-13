@@ -9,9 +9,11 @@ router.get('/', (req, res) => {
   res.send('테스트입니다.')
 })
 
-router.post('/data', (req, res) => {
+router.get('/data', (req, res) => {
   console.log('/posts/data call')
-  res.send(req)
+  res.json({
+    test: 123,
+  })
   // const scm = req.scm;
   // if(scm == 'nelson') {
     // const goodsNo = req.goodsNo;
