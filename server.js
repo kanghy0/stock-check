@@ -6,7 +6,7 @@ const cors = require('cors');
 const app = express()
 
 let corsOptions = {
-  origin: 'https://www.grayshop.co.kr',
+  origin: 'https://grayshop.co.kr',
   credentials: true
 }
 
