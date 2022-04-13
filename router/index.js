@@ -11,8 +11,8 @@ router.get('/', (req, res) => {
 
 router.get('/data', (req, res) => {
   console.log('/posts/data call')
-  const scm = req.scm;
-  if(scm == 'nelson') {
+  // const scm = req.scm;
+  // if(scm == 'nelson') {
     const url = req.url;
     const goodsDir = req.goodsDir;
     const goodsNo = req.goodsNo;
@@ -54,8 +54,8 @@ router.get('/data', (req, res) => {
     catch (err) {
       console.log(err)
     }     
-  }
-  return false;
+  // }
+  // return false;
 });
 
 module.exports = router;
