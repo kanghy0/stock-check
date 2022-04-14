@@ -9,13 +9,13 @@ router.get('/', (req, res) => {
   res.send('테스트입니다.')
 })
 
-router.get('/nelson', (req, res) => {
+router.post('/nelson', (req, res) => {
   console.log('/get/data call')
   // const scm = req.scm;
   // if(scm == 'nelson') {
-    const goodsNo = req.query.goodsNo;
-    const optionNo = req.query.optionNo;
-    const size = req.query.size;
+    const goodsNo = req.body.goodsNo;
+    const optionNo = req.body.optionNo;
+    const size = req.body.size;
 
     try {
       axios.get('http://www.nelsonsports.co.kr/shop/goods/goods_view.php', {
