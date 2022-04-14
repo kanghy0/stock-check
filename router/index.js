@@ -16,6 +16,7 @@ router.get('/nelson', (req, res) => {
     const goodsNo = req.query.goodsNo;
     const optionNo = req.query.optionNo;
     const size = req.query.size;
+
     try {
       axios.get('http://www.nelsonsports.co.kr/shop/goods/goods_view.php', {
         params: {
@@ -33,10 +34,11 @@ router.get('/nelson', (req, res) => {
         })
         script = script.split('console.log(opt);');
         script = script[0].split("opt['" + optionNo + "']");
-        var isSoldout = script[1].search("'" + size + "','soldout'");
+        script = script[script.length - 1].split("opt['");
+        var isSoldout = script[0].search("'" + size + "','soldout'");
         if(isSoldout == -1) {
           isSoldout = 1;
-        } else if(isSoldout == 1) {
+        } else if(1) {
           isSoldout = 0;
         } else {
           isSoldout = -1;
