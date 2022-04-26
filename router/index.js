@@ -29,7 +29,7 @@ router.post('/nelson', (req, res) => {
     const optionNo = req.body.optionNo;
     const size = req.body.size;
     if(!goodsNo || !optionNo || !size) {
-      res.json(optionNo);
+      res.json(goodsNo);
     } else {
       try {
         axios.get('http://www.nelsonsports.co.kr/shop/goods/goods_view.php', {
