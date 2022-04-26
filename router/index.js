@@ -1,8 +1,12 @@
 const express = require('express')
 const axios = require('axios')
 const cheerio = require('cheerio')
+const bodyParser = require('body-parser'); 
 
 const router = express.Router();
+
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 router.get('/', (req, res) => {
   console.log('/post call')
