@@ -35,10 +35,10 @@ router.post('/nelson', (req, res) => {
         script = script.split('console.log(opt);');
         script = script[0].split("opt['" + optionNo + "']");
         script = script[script.length - 1].split("opt['");
-        var isSoldout = script[0].search("'" + size + "',''");
-        if(isSoldout == -1) {
+        var isSoldout = script[0].includes("'" + size + "',''");
+        if(isSoldout == false) {
           isSoldout = 0;
-        } else if(1) {
+        } else if(isSoldout == true) {
           isSoldout = 1;
         } else {
           isSoldout = -1;
