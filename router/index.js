@@ -23,13 +23,13 @@ router.get('/', (req, res) => {
 
 router.post('/nelson', (req, res) => { // post
   console.log('/post/data call')
-  const scm = req.body.scm; // body
+  const scm = req.body.params.scm; // body
   if(scm == 'nelson') {
-    const goodsNo = req.body.goodsNo; // body
-    const optionNo = req.body.optionNo; // body
-    const size = req.body.size; // body
+    const goodsNo = req.body.params.goodsNo; // body
+    const optionNo = req.body.params.optionNo; // body
+    const size = req.body.params.size; // body
     if(!goodsNo || !optionNo || !size) {
-      res.json(scm);
+      res.json();
     } else {
       try {
         axios.get('http://www.nelsonsports.co.kr/shop/goods/goods_view.php', {
@@ -70,7 +70,7 @@ router.post('/nelson', (req, res) => { // post
       }     
     }
   } else {
-    res.json(req.body);
+    res.json();
   }
 });
 
