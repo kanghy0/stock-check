@@ -28,7 +28,7 @@ router.post('/nelson', (req, res) => {
     const goodsNo = req.body.goodsNo;
     const optionNo = req.body.optionNo;
     const size = req.body.size;
-    if(!goodsNo || !optionNo || !size) {
+    if(!goodsNo) {
       res.json(goodsNo);
     } else {
       try {
