@@ -11,51 +11,55 @@ router.get('/', (req, res) => {
 
 router.post('/nelson', (req, res) => {
   console.log('/post/data call')
-  // const scm = req.scm;
-  // if(scm == 'nelson') {
+  const scm = req.body.scm;
+  if(scm == 'nelson') {
     const goodsNo = req.body.goodsNo;
     const optionNo = req.body.optionNo;
     const size = req.body.size;
-
-    try {
-      axios.get('http://www.nelsonsports.co.kr/shop/goods/goods_view.php', {
-        params: {
-          goodsno: goodsNo,
-        }
-      })
-      .then(html => {
-        var $ = cheerio.load(html.data);
-        var content = $('div#content').children('script');
-        var script = '';
-        content.each(function(i, el) {
-          if(i == 5) {
-            script = $(this).html();
+    if(!goodsNo || !optionNo || !size) {
+      res.send();
+    } else {
+      try {
+        axios.get('http://www.nelsonsports.co.kr/shop/goods/goods_view.php', {
+          params: {
+            goodsno: goodsNo,
           }
         })
-        script = script.split('console.log(opt);');
-        script = script[0].split("opt['" + optionNo + "']");
-        script = script[script.length - 1].split("opt['");
-        var isSoldout = script[0].includes("'" + size + "',''");
-        if(isSoldout == false) {
-          isSoldout = 0;
-        } else if(isSoldout == true) {
-          isSoldout = 1;
-        } else {
-          isSoldout = -1;
-        }
-        res.json({
-          isSoldout: isSoldout,
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      })
+        .then(html => {
+          var $ = cheerio.load(html.data);
+          var content = $('div#content').children('script');
+          var script = '';
+          content.each(function(i, el) {
+            if(i == 5) {
+              script = $(this).html();
+            }
+          })
+          script = script.split('console.log(opt);');
+          script = script[0].split("opt['" + optionNo + "']");
+          script = script[script.length - 1].split("opt['");
+          var isSoldout = script[0].includes("'" + size + "',''");
+          if(isSoldout == false) {
+            isSoldout = 0;
+          } else if(isSoldout == true) {
+            isSoldout = 1;
+          } else {
+            isSoldout = -1;
+          }
+          res.json({
+            isSoldout: isSoldout,
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      }
+      catch (err) {
+        console.log(err)
+      }     
     }
-    catch (err) {
-      console.log(err)
-    }     
-  // }
-  // return false;
+  } else {
+    res.send();
+  }
 });
 
 module.exports = router;
