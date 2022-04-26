@@ -21,15 +21,15 @@ router.get('/', (req, res) => {
   res.send('테스트입니다.')
 })
 
-router.post('/nelson', (req, res) => { // post
+router.post('/nelson', (req, res) => {
   console.log('/post/data call')
-  const scm = req.body.scm; // body
+  const scm = req.body.scm;
   if(scm == "nelson") {
-    const goodsNo = req.body.goodsNo; // body
-    const optionNo = req.body.optionNo; // body
-    const size = req.body.size; // body
+    const goodsNo = req.body.goodsNo;
+    const optionNo = req.body.optionNo;
+    const size = req.body.size;
     if(!goodsNo || !optionNo || !size) {
-      res.json('데이터 통과 못함');
+      res.json(size);
     } else {
       try {
         axios.get('http://www.nelsonsports.co.kr/shop/goods/goods_view.php', {
