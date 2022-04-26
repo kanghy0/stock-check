@@ -1,22 +1,8 @@
-const express = require('express')
-const axios = require('axios')
-const cheerio = require('cheerio')
-const cors = require('cors');
-const bodyParser = require('body-parser'); 
+const express = require('express');
+const axios = require('axios');
+const cheerio = require('cheerio');
 
 const router = express.Router();
-
-const app = express()
-
-let corsOptions = {
-  origin: 'https://grayshop.co.kr',
-  credentials: true
-}
-
-app.use(cors(corsOptions));
-
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
 
 router.get('/', (req, res) => {
   console.log('/post call')
@@ -31,7 +17,7 @@ router.post('/nelson', (req, res) => { // post
     const optionNo = req.body.optionNo; // body
     const size = req.body.size; // body
     if(!goodsNo || !optionNo || !size) {
-      res.send();
+      res.json(req.body);
     } else {
       try {
         axios.get('http://www.nelsonsports.co.kr/shop/goods/goods_view.php', {
