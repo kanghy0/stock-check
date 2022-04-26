@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 router.post('/nelson', (req, res) => { // post
   console.log('/post/data call')
   const scm = req.body.scm; // body
-  if(scm == 'nelson') {
+  if(scm == "nelson") {
     const goodsNo = req.body.goodsNo; // body
     const optionNo = req.body.optionNo; // body
     const size = req.body.size; // body
@@ -70,7 +70,7 @@ router.post('/nelson', (req, res) => { // post
       }     
     }
   } else {
-    res.json(req.body);
+    res.json(req.body.scm);
   }
 });
 
