@@ -70,7 +70,7 @@ router.post('/nelson', (req, res) => { // post
       }     
     }
   } else {
-    res.json(req.body.scm);
+    res.json('넬슨 통과 못함');
   }
 });
 
