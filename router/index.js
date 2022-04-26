@@ -5,12 +5,12 @@ const cheerio = require('cheerio')
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  console.log('/get call')
+  console.log('/post call')
   res.send('테스트입니다.')
 })
 
 router.post('/nelson', (req, res) => {
-  console.log('/get/data call')
+  console.log('/post/data call')
   // const scm = req.scm;
   // if(scm == 'nelson') {
     const goodsNo = req.body.goodsNo;
@@ -35,11 +35,11 @@ router.post('/nelson', (req, res) => {
         script = script.split('console.log(opt);');
         script = script[0].split("opt['" + optionNo + "']");
         script = script[script.length - 1].split("opt['");
-        var isSoldout = script[0].search("'" + size + "','soldout'");
+        var isSoldout = script[0].search("'" + size + "',''");
         if(isSoldout == -1) {
-          isSoldout = 1;
-        } else if(1) {
           isSoldout = 0;
+        } else if(1) {
+          isSoldout = 1;
         } else {
           isSoldout = -1;
         }

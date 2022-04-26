@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
   res.send('안녕하세요!')
 })
-app.use('/get', index);
+app.use('/post', index);
 
 app.listen(80, (req, res) => {
   console.log("서버 실행");
