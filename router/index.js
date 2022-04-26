@@ -29,7 +29,7 @@ router.post('/nelson', (req, res) => {
     const optionNo = req.body.optionNo;
     const size = req.body.size;
     if(!goodsNo) {
-      res.json(goodsNo);
+      res.json();
     } else {
       try {
         axios.get('http://www.nelsonsports.co.kr/shop/goods/goods_view.php', {
@@ -70,7 +70,7 @@ router.post('/nelson', (req, res) => {
       }     
     }
   } else {
-    res.json('넬슨 통과 못함');
+    res.json();
   }
 });
 
