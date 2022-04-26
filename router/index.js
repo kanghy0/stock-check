@@ -9,13 +9,13 @@ router.get('/', (req, res) => {
   res.send('테스트입니다.')
 })
 
-router.get('/nelson', (req, res) => { // post
+router.post('/nelson', (req, res) => { // post
   console.log('/post/data call')
-  const scm = req.query.scm; // body
+  const scm = req.body.scm; // body
   if(scm == 'nelson') {
-    const goodsNo = req.query.goodsNo; // body
-    const optionNo = req.query.optionNo; // body
-    const size = req.query.size; // body
+    const goodsNo = req.body.goodsNo; // body
+    const optionNo = req.body.optionNo; // body
+    const size = req.body.size; // body
     if(!goodsNo || !optionNo || !size) {
       res.send();
     } else {
