@@ -1,9 +1,19 @@
 const express = require('express')
 const axios = require('axios')
 const cheerio = require('cheerio')
+const cors = require('cors');
 const bodyParser = require('body-parser'); 
 
 const router = express.Router();
+
+const app = express()
+
+let corsOptions = {
+  origin: 'https://grayshop.co.kr',
+  credentials: true
+}
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
