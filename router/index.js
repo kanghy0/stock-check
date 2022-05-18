@@ -21,13 +21,13 @@ router.get('/', (req, res) => {
   res.send('테스트입니다.')
 })
 
-router.get('/nelson', (req, res) => {
+router.post('/nelson', (req, res) => {
   console.log('/post/nelson call')
-  const scm = req.query.scm;
+  const scm = req.body.scm;
   if(scm == "nelson") {
-    const goodsNo = req.query.goodsNo;
-    const optionNo = req.query.optionNo;
-    let size = req.query.size;
+    const goodsNo = req.body.goodsNo;
+    const optionNo = req.body.optionNo;
+    let size = req.body.size;
     if(size == '') {
       size = 'Free';
     }
