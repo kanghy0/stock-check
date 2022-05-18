@@ -52,7 +52,6 @@ router.get('/nelson', (req, res) => {
           script = script.split('console.log(opt);');
           script = script[0].split("opt['" + optionNo + "']");
           script = script[script.length - 1].split("opt['");
-          console.log(script);
           var isSoldout = script[0].includes("'" + size + "',''");
           if(isSoldout == false) {
             isSoldout = 0;
