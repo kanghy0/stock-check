@@ -77,13 +77,13 @@ router.post('/nelson', (req, res) => {
   }
 });
 
-router.get('/cerrotorre', (req, res) => {
+router.post('/cerrotorre', (req, res) => {
   console.log('/post/cerrotorre call')
-  const scm = req.query.scm;
+  const scm = req.body.scm;
   if(scm == "cerrotorre") {
-    const goodsNo = req.query.goodsNo;
-    const optionNo = req.query.optionNo;
-    let size = req.query.size;
+    const goodsNo = req.body.goodsNo;
+    const optionNo = req.body.optionNo;
+    let size = req.body.size;
     if(!goodsNo) {
       res.json();
     } else {
