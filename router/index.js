@@ -83,7 +83,7 @@ router.get('/cerrotorre', (req, res) => {
   if(scm == "cerrotorre") {
     const goodsNo = req.query.goodsNo;
     const optionNo = req.query.optionNo;
-    const size = req.query.size;
+    let size = req.query.size;
     if(!goodsNo) {
       res.json();
     } else {
@@ -95,10 +95,57 @@ router.get('/cerrotorre', (req, res) => {
         })
         .then(html => {
           var $ = cheerio.load(html.data);
+          var optionName = $('select#product_option_id1').children('option');
+          if(optionName.length != 0) {
+            optionName = optionName[Number(optionNo) + 2].attribs.value;
+            optionName = optionName.replace(/\//gi, '\\\\/');
+          } else {
+            optionName = '';
+          }
+          if(size != '') {
+            if(isNaN(size) == false) {
+              size = Number(size) * 10;
+            } else {
+              size = size[0];
+            }
+          }
           var content = $('script[type=text/javascript]');
           var lastContentNo = content.length - 1;
           var script = content[lastContentNo];
-          console.log($.html(script));
+          var testScript = [];
+          if(optionName != '') {
+            script = $.html(script).split('var option_stock_data = ');
+            script = script[1].split('var stock_manage = ');
+            script = script[0].split('stock_price');
+            for (let index = 0; index < script.length; index++) {
+              if(script[index].includes('\\"option_value\\":\\"' + optionName + '-' + size)) {
+                testScript.push(script[index]);
+              }
+            }
+            var isSoldout = -1;
+            if(testScript.length == 1) {
+              if(testScript[0].includes('\\"is_selling\\":\\"T\\",')) {
+                isSoldout = 1;
+              } else if(testScript[0].includes('\\"is_selling\\":\\"F\\",')) {
+                isSoldout = 0;
+              }
+              res.json({
+                isSoldout: isSoldout, 
+              });
+            } else {
+              res.json();
+            }
+          } else if(optionName == '') {
+            var isSoldout = -1;
+            if($.html(script).includes('\\"is_soldout\\":false,')) {
+              isSoldout = 1;
+            } else if($.html(script).includes('\\"is_soldout\\":true,')) {
+              isSoldout = 0;
+            }
+            res.json({
+              isSoldout: isSoldout,
+            })
+          }
         })
         .catch(err => {
           console.log(err);
@@ -114,22 +161,3 @@ router.get('/cerrotorre', (req, res) => {
 });
 
 module.exports = router;
-
-
-// {\"P0000BCQ00BR\":{\"stock_price\":\"0.00\",\"use_stock\":false,\"use_soldout\":\"F\",\"is_display\":\"T\",\"is_selling\":\"F\",\"option_price\":135000,\"option_name\":\"\\uc0c9\\uc0c1#$%\\uc0ac\\uc774\\uc988\",\"option_value\":\"BLUE \\/ BB-335\",\"stock_number\":0,\"option_value_orginal\":[\"BLUE \\/ BB\",\"335\"],\"use_stock_original\":\"F\",\"use_soldout_original\":\"F\",\"use_soldout_today_delivery\":null,\"is_auto_soldout\":\"F\",\"is_mandatory\":\"T\",\"option_id\":\"00BR\",\"is_reserve_stat\":\"N\",\"item_image_file\":null,\"origin_option_added_price\":\"0.00\"},
-// \"P0000BCQ00BS\":{\"stock_price\":\"0.00\",\"use_stock\":false,\"use_soldout\":\"F\",\"is_display\":\"T\",\"is_selling\":\"F\",\"option_price\":135000,\"option_name\":\"\\uc0c9\\uc0c1#$%\\uc0ac\\uc774\\uc988\",\"option_value\":\"BLUE \\/ BB-340\",\"stock_number\":0,\"option_value_orginal\":[\"BLUE \\/ BB\",\"340\"],\"use_stock_original\":\"F\",\"use_soldout_original\":\"F\",\"use_soldout_today_delivery\":null,\"is_auto_soldout\":\"F\",\"is_mandatory\":\"T\",\"option_id\":\"00BS\",\"is_reserve_stat\":\"N\",\"item_image_file\":null,\"origin_option_added_price\":\"0.00\"},
-// \"P0000BCQ00BT\":{\"stock_price\":\"0.00\",\"use_stock\":false,\"use_soldout\":\"F\",\"is_display\":\"T\",\"is_selling\":\"T\",\"option_price\":135000,\"option_name\":\"\\uc0c9\\uc0c1#$%\\uc0ac\\uc774\\uc988\",\"option_value\":\"BLUE \\/ BB-345\",\"stock_number\":999,\"option_value_orginal\":[\"BLUE \\/ BB\",\"345\"],\"use_stock_original\":\"F\",\"use_soldout_original\":\"F\",\"use_soldout_today_delivery\":null,\"is_auto_soldout\":\"F\",\"is_mandatory\":\"T\",\"option_id\":\"00BT\",\"is_reserve_stat\":\"N\",\"item_image_file\":null,\"origin_option_added_price\":\"0.00\"},
-// \"P0000BCQ00BU\":{\"stock_price\":\"0.00\",\"use_stock\":false,\"use_soldout\":\"F\",\"is_display\":\"T\",\"is_selling\":\"T\",\"option_price\":135000,\"option_name\":\"\\uc0c9\\uc0c1#$%\\uc0ac\\uc774\\uc988\",\"option_value\":\"BLUE \\/ BB-350\",\"stock_number\":999,\"option_value_orginal\":[\"BLUE \\/ BB\",\"350\"],\"use_stock_original\":\"F\",\"use_soldout_original\":\"F\",\"use_soldout_today_delivery\":null,\"is_auto_soldout\":\"F\",\"is_mandatory\":\"T\",\"option_id\":\"00BU\",\"is_reserve_stat\":\"N\",\"item_image_file\":null,\"origin_option_added_price\":\"0.00\"},
-// \"P0000BCQ00BV\":{\"stock_price\":\"0.00\",\"use_stock\":false,\"use_soldout\":\"F\",\"is_display\":\"T\",\"is_selling\":\"T\",\"option_price\":135000,\"option_name\":\"\\uc0c9\\uc0c1#$%\\uc0ac\\uc774\\uc988\",\"option_value\":\"BLUE \\/ BB-355\",\"stock_number\":999,\"option_value_orginal\":[\"BLUE \\/ BB\",\"355\"],\"use_stock_original\":\"F\",\"use_soldout_original\":\"F\",\"use_soldout_today_delivery\":null,\"is_auto_soldout\":\"F\",\"is_mandatory\":\"T\",\"option_id\":\"00BV\",\"is_reserve_stat\":\"N\",\"item_image_file\":null,\"origin_option_added_price\":\"0.00\"},
-// \"P0000BCQ00BW\":{\"stock_price\":\"0.00\",\"use_stock\":false,\"use_soldout\":\"F\",\"is_display\":\"T\",\"is_selling\":\"F\",\"option_price\":135000,\"option_name\":\"\\uc0c9\\uc0c1#$%\\uc0ac\\uc774\\uc988\",\"option_value\":\"BLUE \\/ BB-360\",\"stock_number\":0,\"option_value_orginal\":[\"BLUE \\/ BB\",\"360\"],\"use_stock_original\":\"F\",\"use_soldout_original\":\"F\",\"use_soldout_today_delivery\":null,\"is_auto_soldout\":\"F\",\"is_mandatory\":\"T\",\"option_id\":\"00BW\",\"is_reserve_stat\":\"N\",\"item_image_file\":null,\"origin_option_added_price\":\"0.00\"},
-// \"P0000BCQ00BX\":{\"stock_price\":\"0.00\",\"use_stock\":false,\"use_soldout\":\"F\",\"is_display\":\"T\",\"is_selling\":\"F\",\"option_price\":135000,\"option_name\":\"\\uc0c9\\uc0c1#$%\\uc0ac\\uc774\\uc988\",\"option_value\":\"BLUE \\/ BB-365\",\"stock_number\":0,\"option_value_orginal\":[\"BLUE \\/ BB\",\"365\"],\"use_stock_original\":\"F\",\"use_soldout_original\":\"F\",\"use_soldout_today_delivery\":null,\"is_auto_soldout\":\"F\",\"is_mandatory\":\"T\",\"option_id\":\"00BX\",\"is_reserve_stat\":\"N\",\"item_image_file\":null,\"origin_option_added_price\":\"0.00\"}}'
-// ;var stock_manage = '';
-// var option_value_mapper = '
-// {\"BLUE \\/ BB#$%335\":\"P0000BCQ00BR\",
-// \"BLUE \\/ BB#$%340\":\"P0000BCQ00BS\",
-// \"BLUE \\/ BB#$%345\":\"P0000BCQ00BT\",
-// \"BLUE \\/ BB#$%350\":\"P0000BCQ00BU\",
-// \"BLUE \\/ BB#$%355\":\"P0000BCQ00BV\",
-// \"BLUE \\/ BB#$%360\":\"P0000BCQ00BW\",
-// \"BLUE \\/ BB#$%365\":\"P0000BCQ00BX\"}'
-// ;var item_count = '7';var item_listing_type = 'S';var product_option_price_display = 'T'
