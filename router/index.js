@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const iconv = require('iconv-lite');
 const bodyParser = require('body-parser'); 
 const cors = require('cors');
 
@@ -146,6 +147,75 @@ router.post('/cerrotorre', (req, res) => {
               isSoldout: isSoldout,
             })
           }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+  } else {
+    res.json();
+  }
+});
+
+router.get('/kl', (req, res) => {
+  console.log('/post/kl call')
+  const scm = req.query.scm;
+  if(scm == "kl") {
+    const goodsNo = req.query.goodsNo;
+    const optionNo = req.query.optionNo;
+    let size = req.query.size;
+    if(!goodsNo) {
+      res.json();
+    } else {
+      try {
+        axios.get('https://www.altrarunning.kr/shop/shopdetail.html', {
+          params: {
+            branduid: goodsNo,
+          }
+        })
+        .then(html => {
+          var $ = cheerio.load(html.data);
+          var content = $('body script[type=text/javascript]');
+          var script = '';
+          content.each(function(i, el) {
+            if(i == 7) {
+              script = $(this).html();
+            }
+          })
+          script = script.split('var optionJsonData');
+          script = script[1].split('var view_member_only_price');
+          script = script[0].split('adminuser');
+          var isOptionOne = [];
+          script.forEach(element => {
+            var soldoutTest = element.split('opt_values');
+            if(typeof(soldoutTest[1]) == 'string') {
+              if(isNaN(size)) {
+                if(soldoutTest[1].includes(":'" + size + "',sto_price")) {
+                  isOptionOne.push(soldoutTest[1]);
+                }
+              } else {
+                if(soldoutTest[1].includes('(US ' + size + ')')) {
+                  isOptionOne.push(soldoutTest[1]);
+                }
+              }
+            }
+          });
+          var isSoldout = -1;
+          if(isOptionOne.length == 1) {
+            if(isOptionOne[0].includes("'SOLDOUT'")) {
+              isSoldout = 0;
+            } else {
+              isSoldout = 1;
+            }
+          }
+          res.json({
+            isSoldout: isSoldout,
+          })
+          console.log(isSoldout);
         })
         .catch(err => {
           console.log(err);
