@@ -161,13 +161,13 @@ router.post('/cerrotorre', (req, res) => {
   }
 });
 
-router.post('/kl', (req, res) => {
+router.get('/kl', (req, res) => {
   console.log('/post/kl call')
-  const scm = req.body.scm;
+  const scm = req.query.scm;
   if(scm == "kl") {
-    const goodsNo = req.body.goodsNo;
-    const optionNo = req.body.optionNo;
-    let size = req.body.size;
+    const goodsNo = req.query.goodsNo;
+    const optionNo = req.query.optionNo;
+    let size = req.query.size;
     if(!goodsNo) {
       res.json();
     } else {
@@ -215,7 +215,6 @@ router.post('/kl', (req, res) => {
           res.json({
             isSoldout: isSoldout,
           })
-          console.log(isSoldout);
         })
         .catch(err => {
           console.log(err);
