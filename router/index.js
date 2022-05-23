@@ -164,6 +164,7 @@ router.post('/cerrotorre', (req, res) => {
 router.get('/kl', (req, res) => {
   console.log('/post/kl call')
   const scm = req.query.scm;
+  console.log(scm);
   if(scm == "kl") {
     const goodsNo = req.query.goodsNo;
     const optionNo = req.query.optionNo;
